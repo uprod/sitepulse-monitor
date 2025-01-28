@@ -1,4 +1,4 @@
-import Mailjet from 'node-mailjet';
+import { Client } from 'node-mailjet';
 
 export const sendDownNotification = async (siteName: string, siteUrl: string, email: string) => {
   if (!email) {
@@ -7,9 +7,9 @@ export const sendDownNotification = async (siteName: string, siteUrl: string, em
   }
 
   try {
-    const mailjet = new Mailjet({
-      apiKey: process.env.MAILJET_API_KEY,
-      apiSecret: process.env.MAILJET_API_SECRET
+    const mailjet = new Client({
+      apiKey: process.env.MAILJET_API_KEY || '',
+      apiSecret: process.env.MAILJET_API_SECRET || ''
     });
 
     const request = await mailjet.post('send', { version: 'v3.1' }).request({
