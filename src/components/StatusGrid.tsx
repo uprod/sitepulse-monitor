@@ -18,8 +18,7 @@ const StatusGrid = ({ websites, statuses }: StatusGridProps) => {
             className="border border-gray-800 rounded-lg p-4 flex items-center justify-between"
           >
             <div>
-              <h3 className="font-bold mb-1">{site.name || site.url}</h3>
-              <p className="text-sm text-gray-400">{site.url}</p>
+              <h3 className="font-bold">{site.name || site.url}</h3>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-sm text-gray-400">
