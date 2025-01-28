@@ -1,49 +1,16 @@
-import { Client } from 'node-mailjet';
-
 export const sendDownNotification = async (siteName: string, siteUrl: string, email: string) => {
   if (!email) {
     console.error('No email address provided for notifications');
     return;
   }
 
-  try {
-    const mailjet = new Client({
-      apiKey: process.env.MAILJET_API_KEY || '',
-      apiSecret: process.env.MAILJET_API_SECRET || ''
-    });
+  // Since we can't use Mailjet directly in the browser, we'll log the notification
+  console.log('Would send email notification:', {
+    to: email,
+    subject: `🔴 Site Down Alert: ${siteName}`,
+    message: `The website ${siteName} (${siteUrl}) is currently unavailable.`
+  });
 
-    const request = await mailjet.post('send', { version: 'v3.1' }).request({
-      Messages: [
-        {
-          From: {
-            Email: "your-verified-sender@domain.com", // Replace with your verified sender
-            Name: "Website Monitor"
-          },
-          To: [
-            {
-              Email: email,
-              Name: "Subscriber"
-            }
-          ],
-          Subject: `🔴 Site Down Alert: ${siteName}`,
-          TextPart: `The website ${siteName} (${siteUrl}) is currently unavailable.`,
-          HTMLPart: `
-            <div>
-              <h2>Website Monitoring Alert</h2>
-              <p>The following website is currently <strong>unavailable</strong>:</p>
-              <ul>
-                <li>Site: ${siteName}</li>
-                <li>URL: ${siteUrl}</li>
-              </ul>
-              <p>Our system will continue monitoring and notify you when the site is back online.</p>
-            </div>
-          `
-        }
-      ]
-    });
-
-    console.log('Email notification sent successfully');
-  } catch (error) {
-    console.error('Error sending email notification:', error);
-  }
+  // In a real application, this would make an API call to a backend service
+  // that would handle the actual email sending using Mailjet
 };
